@@ -56,6 +56,7 @@ class ProductForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '価格'}),
             'category': forms.Select(attrs={'class': 'form-select'})
         }
+
 class SimpleTextForm(forms.Form):
     text_input = forms.CharField(
         label='テキスト入力',
@@ -63,7 +64,8 @@ class SimpleTextForm(forms.Form):
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'テキストを入力してください'})
     )
+
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name']  
+        fields = ['name']

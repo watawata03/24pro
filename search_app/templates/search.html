@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -8,45 +9,70 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'KikaiChokokuJIS';
+            src: url("{% static 'fonts/GenEiNuGothic-EB.ttf' %}") format('opentype');
+            font-weight: 100; 
+            font-style: normal;
+        }
+
         body {
-            background-color: #f4efe9; 
+            background: url("{% static 'images/nier-test.png' %}") no-repeat center center fixed;
+            background-size: cover;
             color: #3b2f2f;
-            font-family: 'Roboto', sans-serif;
-            letter-spacing: 0.05em;
+            font-family: 'KikaiChokokuJIS', 'Roboto', sans-serif;
+            font-weight: 400; 
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0);
+            border-radius: 10px;
         }
 
         h1 {
             text-align: center;
-            margin-top: 50px;
-            font-size: 3.5rem;
-            color: #6b4a2a; 
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            font-weight: 700;
-            letter-spacing: 0.1em;
+            margin-bottom: 30px;
+            font-size: 3rem;
+            font-weight: 400; /* 見出しの文字の太さを調整 */
+            color: #49463D;
+            background-color: rgba(255, 255, 255, 0);
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
+        .menu {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .menu a {
+            background-color: rgba(107, 74, 42, 0.8);
+            color: #fff;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu a:hover {
+            background-color: rgba(73, 70, 61, 0.8);
         }
 
         .search-form {
-            background: #faf3e6;
+            background: rgba(255, 255, 255, 0);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             margin-top: 30px;
-            border: 1px solid #d2b48c;
-        }
-
-        label {
-            color: #6b4a2a;
-            font-weight: 600;
         }
 
         input, select {
-            background: #fff5e1;
+            background: rgba(255, 255, 255, 0.8);
             border: 2px solid #8b5e34;
             border-radius: 10px;
             padding: 12px;
@@ -65,45 +91,20 @@
         }
 
         .btn-primary {
-            background-color: #8b5e34;
+            background-color: rgba(139, 94, 52, 0.8);
             border: none;
             color: #fff;
             padding: 15px 30px;
-            font-size: 1.1rem; /* フォントサイズを小さくする */
+            font-size: 1.1rem;
             border-radius: 10px;
             transition: all 0.3s ease;
             display: block;
             margin: 0 auto;
-            width: 200px;
-            white-space: nowrap; /* テキストを折り返さない */
         }
-
-
 
         .btn-primary:hover {
-            background-color: #b57b4a;
+            background-color: rgba(181, 123, 74, 0.8);
             transform: scale(1.05);
-        }
-
-        .btn-add-product, .btn-add-category {
-            background-color: #6b4a2a;
-            margin-bottom: 20px;
-            border-radius: 20px;
-            color: #fff;
-            border: none;
-            padding: 10px 30px;
-            font-size: 1.3rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-add-product:hover, .btn-add-category:hover {
-            background-color: #a26645;
-            transform: scale(1.1);
-        }
-
-        .text-center {
-            text-align: center;
-            margin-bottom: 40px;
         }
 
         .product-list {
@@ -111,17 +112,11 @@
         }
 
         .product-list li {
-            background-color: #f4f1e7;
+            background-color: rgba(244, 241, 231, 0.8); 
             margin: 20px 0;
             padding: 20px;
             border-radius: 10px;
             border: 1px solid #d2b48c;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-list li:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(181, 123, 74, 0.3);
         }
 
         .pagination {
@@ -137,16 +132,13 @@
             color: #b57b4a;
         }
 
-        .pagination .current {
-            color: #6b4a2a;
-        }
-
         footer {
             text-align: center;
             margin-top: 50px;
             padding: 10px;
             color: #af9168;
             font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0);
         }
     </style>
 </head>
@@ -155,29 +147,21 @@
 <div class="container">
     <h1>Product Search</h1>
 
-    <!-- 商品一覧ページへのリンク -->
-    <div class="text-center">
-        <a href="{% url 'product_list' %}" class="btn btn-primary">商品管理画面へ</a>
+    <div class="menu">
+        <a href="{% url 'product_list' %}">商品管理画面へ</a>
+        <a href="{% url 'product_create' %}">+ 新しい商品を追加</a>
+        <a href="{% url 'category_create' %}">+ 新しいカテゴリを追加</a>
     </div>
 
-    <!-- 商品追加・カテゴリ追加ボタン -->
-    <div class="text-center">
-        <a href="{% url 'product_create' %}" class="btn btn-add-product">+ 新しい商品を追加</a>
-        <a href="{% url 'category_create' %}" class="btn btn-add-category">+ 新しいカテゴリを追加</a>
-    </div>
-
-    <!-- 検索フォーム -->
     <form method="get" class="search-form">
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">検索</button>
     </form>
 
-    <!-- 該当する商品数の表示 -->
     <div class="text-center mt-4">
         <p>該当する商品数: {{ total_results }} 件</p>
     </div>
 
-    <!-- 検索結果の表示 -->
     <ul class="product-list">
         {% for product in page_obj %}
             <li>
@@ -188,7 +172,6 @@
         {% endfor %}
     </ul>
 
-    <!-- ページネーションリンクの表示 -->
     <nav class="pagination">
         <ul class="pagination">
             {% if page_obj.has_previous %}
@@ -204,10 +187,8 @@
             {% endif %}
         </ul>
     </nav>
-
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
