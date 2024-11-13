@@ -1,0 +1,130 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-29 14:03+0900\n"
+"Language: ja\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: search_app/templates/search.html:9 search_app/templates/search.html:211
+msgid "Product Search"
+msgstr "商品検索"
+
+#: search_app/templates/search.html:214
+msgid "Go to Product Management"
+msgstr "商品管理画面へ"
+
+#: search_app/templates/search.html:215
+msgid "+ Add New Product"
+msgstr "新しい商品を追加"
+
+#: search_app/templates/search.html:216
+msgid "+ Add New Category"
+msgstr "新しいカテゴリを追加"
+
+#: search_app/templates/search.html:217
+msgid "Recommended Ranking"
+msgstr "あなたへのおすすめ"
+
+#: search_app/templates/search.html:227
+msgid "Search"
+msgstr "検索"
+
+#: search_app/templates/search.html:232
+msgid "Total products found:"
+msgstr "見つかった商品"
+
+#: search_app/templates/search.html:232
+msgid "items"
+msgstr "商品"
+
+#: search_app/templates/search.html:241 search_app/templates/search.html:330
+msgid "Popularity:"
+msgstr "人気度"
+
+#: search_app/templates/search.html:247
+msgid "No products found."
+msgstr "該当する製品は見つかりませんでした。"
+
+#: search_app/templates/search.html:252
+msgid "Search History"
+msgstr "検索履歴"
+
+#: search_app/templates/search.html:258
+msgid "Search Keyword:"
+msgstr "検索キーワード"
+
+#: search_app/templates/search.html:262
+msgid "Category:"
+msgstr "カテゴリー"
+
+#: search_app/templates/search.html:263
+msgid "Min Price:"
+msgstr "最低価格"
+
+#: search_app/templates/search.html:264
+msgid "Max Price:"
+msgstr "最高価格"
+
+#: search_app/templates/search.html:265
+msgid "Sort By:"
+msgstr "並び替え"
+
+#: search_app/templates/search.html:267
+msgid "Popularity"
+msgstr "人気度"
+
+#: search_app/templates/search.html:269
+msgid "Price (Low to High)"
+msgstr "価格（最低価格～最高価格）"
+
+#: search_app/templates/search.html:271
+msgid "Price (High to Low)"
+msgstr "価格（最高価格～最低価格）"
+
+#: search_app/templates/search.html:273
+msgid "Name (Ascending)"
+msgstr ""
+
+#: search_app/templates/search.html:275
+msgid "Name (Descending)"
+msgstr ""
+
+#: search_app/templates/search.html:283 search_app/templates/search.html:296
+msgid "Delete"
+msgstr "削除"
+
+#: search_app/templates/search.html:288 search_app/templates/search.html:301
+msgid "No search history available."
+msgstr ""
+
+#: search_app/templates/search.html:309
+msgid "First"
+msgstr ""
+
+#: search_app/templates/search.html:310
+msgid "Previous"
+msgstr ""
+
+#: search_app/templates/search.html:313
+msgid "Page"
+msgstr ""
+
+#: search_app/templates/search.html:313
+msgid "of"
+msgstr ""
+
+#: search_app/templates/search.html:316
+msgid "Next"
+msgstr ""
+
+#: search_app/templates/search.html:317
+msgid "Last"
+msgstr ""
+
+#: search_app/templates/search.html:323
+msgid "Recommended for You"
+msgstr "あなたへのおすすめ"
+
+#: search_app/templates/search.html:336
+msgid "No recommended products found."
+msgstr ""

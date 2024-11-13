@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSVエクスポート</title>
+    <!-- Bootstrap & Google Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'KikaiChokokuJIS';
+            src: url("{% static 'fonts/GenEiNuGothic-EB.ttf' %}") format('opentype');
+            font-weight: 100;
+            font-style: normal;
+        }
+
+        body {
+            background: url("{% static 'images/nier-test.png' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: #3b2f2f;
+            font-family: 'KikaiChokokuJIS', 'Roboto', sans-serif;
+            font-weight: 400;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: #49463D;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #49463D;
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid #8b5e34;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            color: #3b2f2f;
+        }
+
+        .btn-primary {
+            background-color: rgba(139, 94, 52, 0.8);
+            border: none;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(181, 123, 74, 0.8);
+            transform: scale(1.05);
+        }
+
+        .hint-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>CSVエクスポート</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="file_name" class="form-label">ファイル名</label>
+            <input type="text" name="file_name" id="file_name" class="form-control" placeholder="ファイル名を入力してください">
+            <small class="hint-text">拡張子は自動で「.csv」が付きます。</small>
+        </div>
+        <button type="submit" class="btn btn-primary">エクスポート</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

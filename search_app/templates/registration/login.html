@@ -1,0 +1,32 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "ログイン" %}</title>
+</head>
+<body>
+    <h1>{% trans "ログイン" %}</h1>
+    {% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <label for="username">{% trans "ユーザーネーム" %}</label>
+    <input type="text" name="username" id="username" required>
+
+    <label for="password">{% trans "パスワード" %}</label>
+    <input type="password" name="password" id="password" required>
+
+    <button type="submit">{% trans "ログイン" %}</button>
+</form>
+
+<a href="{% url 'password_reset' %}">{% trans "パスワードをお忘れですか?" %}</a>
+</body>
+</html>

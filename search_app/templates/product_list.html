@@ -1,7 +1,7 @@
+{% load static %}
 {% load humanize %}
 <!DOCTYPE html>
 <html lang="ja">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,31 +10,43 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4efe9; 
-            color: #3b2f2f;
-            font-family: 'Roboto', sans-serif;
-            letter-spacing: 0.05em;
+        @font-face {
+            font-family: 'KikaiChokokuJIS';
+            src: url("{% static 'fonts/GenEiNuGothic-EB.ttf' %}") format('opentype');
+            font-weight: 100; 
+            font-style: normal;
         }
 
-        h1 {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 3.5rem;
-            color: #6b4a2a;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            font-weight: 700;
-            letter-spacing: 0.1em;
+        body {
+            background: url("{% static 'images/nier-test.png' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: #3b2f2f;
+            font-family: 'KikaiChokokuJIS', 'Roboto', sans-serif;
+            font-weight: 400; 
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
         }
 
         .container {
             max-width: 1100px;
-            margin: 0 auto;
+            margin: 100px auto;
             padding: 20px;
+            background-color: rgba(255, 255, 255, 0);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 3rem;
+            font-weight: 400;
+            color: #49463D;
+            background-color: rgba(255, 255, 255, 0);
         }
 
         .table {
-            background: #faf3e6;
+            background: rgba(244, 241, 231, 0.8);
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             margin-top: 30px;
@@ -86,6 +98,20 @@
             color: #af9168;
             font-size: 0.9rem;
         }
+
+        /* 人気度バーのスタイル */
+        .popularity-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .popularity-bar .bar {
+            height: 15px;
+            background-color: #ff6347;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -99,6 +125,7 @@
                 <th>商品名</th>
                 <th>価格</th>
                 <th>カテゴリ</th>
+                <th>人気度</th> 
                 <th>操作</th>
             </tr>
         </thead>
@@ -110,10 +137,12 @@
                     <td>{{ product.category.name }}</td>
                     <!-- 人気度バーを表示 -->
                     <td>
+                        <p>人気度: {{ product.popularity }}</p> 
                         <div class="popularity-bar">
-                            <div class="bar" style="width: {{ product.popularity }}%;"></div>
+                            <div class="bar" style="width: {{ product.popularity|default_if_none:0 }}%;"></div>
                         </div>
                     </td>
+                    
                     <td>
                         <a href="{% url 'product_detail' product.pk %}" class="btn btn-info btn-sm">詳細</a>
                         <a href="{% url 'product_update' product.pk %}" class="btn btn-secondary btn-sm">編集</a>
@@ -126,11 +155,10 @@
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="5">商品が見つかりませんでした。</td> <!-- 人気度を含むためcolspanを5に -->
+                    <td colspan="5">商品が見つかりませんでした。</td> 
                 </tr>
             {% endfor %}
         </tbody>
-        
     </table>
 
     <!-- ページネーション -->

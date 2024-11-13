@@ -69,3 +69,13 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name']
+        
+class FileNameForm(forms.Form):
+    file_name = forms.CharField(
+        label='ファイル名',
+        max_length=100,
+        required=True,
+        initial='search_results.csv',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ファイル名を入力'})
+    )
+

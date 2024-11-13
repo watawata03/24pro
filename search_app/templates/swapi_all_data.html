@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>SWAPI 全データ - 翻訳用</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { color: #00aaff; }
+        h2 { margin-top: 20px; color: #007acc; }
+        .data-item { margin: 10px 0; padding: 10px; background-color: #f3f3f3; border-radius: 5px; }
+        .data-translation { margin-top: 5px; font-style: italic; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>スターウォーズ データ一覧と翻訳</h1>
+
+    {% for category, items in data.items %}
+        <h2>{{ category|title }}</h2>
+        <ul>
+            {% for item in items %}
+                <li class="data-item">
+                    <!-- タイトルまたは名前を表示 -->
+                    <strong>
+                        {% if item.name %}
+                            {{ item.name }}
+                        {% elif item.title %}
+                            {{ item.title }}
+                        {% else %}
+                            No title available
+                        {% endif %}
+                    </strong>
+                    <pre>{{ item }}</pre>
+                    <!-- 翻訳を書くスペース -->
+                    <div class="data-translation">
+                        <label>翻訳:</label>
+                        <textarea rows="4" cols="50" placeholder="ここに日本語翻訳を記入してください"></textarea>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html>

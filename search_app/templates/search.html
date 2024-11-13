@@ -1,11 +1,12 @@
+{% load i18n %}
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Search</title>
-    <!-- Bootstrap & Google Fonts -->
+    <title>{% trans "Product Search" %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -15,7 +16,6 @@
             font-weight: 100; 
             font-style: normal;
         }
-
         body {
             background: url("{% static 'images/nier-test.png' %}") no-repeat center center fixed;
             background-size: cover;
@@ -39,29 +39,64 @@
             text-align: center;
             margin-bottom: 30px;
             font-size: 3rem;
-            font-weight: 400; /* 見出しの文字の太さを調整 */
+            font-weight: 400;
             color: #49463D;
             background-color: rgba(255, 255, 255, 0);
         }
 
-        .menu {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
+        .navbar-toggler {
+            border: none;
+            outline: none;
         }
 
-        .menu a {
-            background-color: rgba(107, 74, 42, 0.8);
+        .navbar-toggler-icon {
+            background-color: #49463D;
+        }
+
+        .navbar-collapse {
+            justify-content: center;
+        }
+
+        .navbar-nav .nav-item .nav-link {
             color: #fff;
             padding: 10px 20px;
-            margin: 0 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
+            margin: 5px;
+            background-color: rgba(107, 74, 42, 0.8);
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .menu a:hover {
+        .navbar-nav .nav-item .nav-link:hover {
             background-color: rgba(73, 70, 61, 0.8);
+            transform: scale(1.05);
+        }
+
+        .navbar-nav .nav-item .nav-link:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #logout-form button.nav-link {
+            background-color: rgba(107, 74, 42, 0.8);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: rgba(139, 94, 52, 0.8);
+            border: none;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(181, 123, 74, 0.8);
+            transform: scale(1.05);
         }
 
         .search-form {
@@ -90,23 +125,6 @@
             box-shadow: 0 0 8px rgba(181, 123, 74, 0.5);
         }
 
-        .btn-primary {
-            background-color: rgba(139, 94, 52, 0.8);
-            border: none;
-            color: #fff;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .btn-primary:hover {
-            background-color: rgba(181, 123, 74, 0.8);
-            transform: scale(1.05);
-        }
-
         .product-list {
             margin-top: 30px;
         }
@@ -117,6 +135,33 @@
             padding: 20px;
             border-radius: 10px;
             border: 1px solid #d2b48c;
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #FFD700;
+            color: #3b2f2f;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            z-index: 5;
+        }
+
+        .popularity-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .popularity-bar .bar {
+            height: 15px;
+            background-color: #ff6347;
+            border-radius: 10px;
         }
 
         .pagination {
@@ -140,55 +185,245 @@
             font-size: 0.9rem;
             background: rgba(255, 255, 255, 0);
         }
+
+        .search-history-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-history-card {
+            background-color: rgba(244, 241, 231, 0.8); 
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #d2b48c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-history-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-history-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #49463D;
+            margin-bottom: 10px;
+        }
+
+        .search-history-body p {
+            margin: 5px 0;
+            color: #3b2f2f;
+            font-weight: 500;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .bestseller .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bestseller .star {
+            position: absolute;
+            display: block;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { opacity: 0; transform: scale(1); }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Product Search</h1>
+    <h1>{% trans "Product Search" %}</h1>
 
-    <div class="menu">
-        <a href="{% url 'product_list' %}">商品管理画面へ</a>
-        <a href="{% url 'product_create' %}">+ 新しい商品を追加</a>
-        <a href="{% url 'category_create' %}">+ 新しいカテゴリを追加</a>
-    </div>
+    <nav class="navbar bg-transparent">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav text-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">{% trans "Go to Product Management" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'product_create' %}">{% trans "+ Add New Product" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'category_create' %}">{% trans "+ Add New Category" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="#recommended">{% trans "Recommended Ranking" %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="/en/">English</a></li>
+                <li class="nav-item"><a class="nav-link" href="/ja/">日本語</a></li>
+                <a href="{% url 'swapi_character_search' %}">キャラクター検索</a>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link btn-primary">{% trans "Logout" %}</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link btn-primary" href="{% url 'login' %}">{% trans "Login" %}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
 
     <form method="get" class="search-form">
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">検索</button>
+        <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
     </form>
-
-    <div class="text-center mt-4">
-        <p>該当する商品数: {{ total_results }} 件</p>
-    </div>
 
     <ul class="product-list">
         {% for product in page_obj %}
-            <li>
-                <strong>{{ product.name }}</strong> - ¥{{ product.price }}
+            <li class="{% if product.popularity >= 100 %}bestseller{% endif %}">
+                <a href="{% url 'product_detail' product.pk %}">
+                    <strong>{{ product.name }}</strong> - ¥{{ product.price|floatformat:"0" }}
+                </a>
+                {% if product.popularity >= 100 %}
+                    <span class="badge">{% trans "ベストセラー" %}</span>
+                    <div class="stars"></div>
+                {% endif %}
+                <p>{% trans "Popularity:" %} {{ product.popularity }}</p>
+                <div class="popularity-bar">
+                    <div class="bar" style="width: {{ product.popularity|default_if_none:0 }}%;"></div>
+                </div>
             </li>
         {% empty %}
-            <li>該当する商品が見つかりませんでした。</li>
+            <li>{% trans "No products found." %}</li>
         {% endfor %}
     </ul>
+
+    <h2 class="mt-5">{% trans "Search History" %}</h2>
+    <div class="search-history-container">
+        {% for history in search_history %}
+            <div class="search-history-card">
+                <div class="search-history-header">
+                    <a href="?query={{ history.query }}&category={{ history.category }}&min_price={{ history.min_price }}&max_price={{ history.max_price }}&sort_by={{ history.sort_by }}">
+                        <strong>{% trans "Search Keyword:" %}</strong> {{ history.query }}
+                    </a>
+                </div>
+                <div class="search-history-body">
+                    <p><strong>{% trans "Category:" %}</strong> {{ history.category }}</p>
+                    <p><strong>{% trans "Min Price:" %}</strong> ¥{{ history.min_price|floatformat:0|default:"-" }}</p>
+                    <p><strong>{% trans "Max Price:" %}</strong> ¥{{ history.max_price|floatformat:0|default:"-" }}</p>
+                    <p><strong>{% trans "Sort By:" %}</strong> 
+                    {% if history.sort_by == 'popularity' %}
+                        {% trans "Popularity" %}
+                    {% elif history.sort_by == 'price_asc' %}
+                        {% trans "Price (Low to High)" %}
+                    {% elif history.sort_by == 'price_desc' %}
+                        {% trans "Price (High to Low)" %}
+                    {% elif history.sort_by == 'name_asc' %}
+                        {% trans "Name (Ascending)" %}
+                    {% elif history.sort_by == 'name_desc' %}
+                        {% trans "Name (Descending)" %}
+                    {% else %}
+                        {{ history.sort_by }}
+                    {% endif %}
+                    </p>
+                </div>
+                <form method="post" action="{% url 'delete_search_history' history.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+                </form>
+            </div>
+        {% empty %}
+            <div class="search-history-card">
+                <p>{% trans "No search history available." %}</p>
+            </div>
+        {% endfor %}
+    </div>
 
     <nav class="pagination">
         <ul class="pagination">
             {% if page_obj.has_previous %}
-                <li class="page-item"><a href="?page=1" class="page-link">最初</a></li>
-                <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">前へ</a></li>
+                <li class="page-item"><a href="?page=1" class="page-link">{% trans "First" %}</a></li>
+                <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">{% trans "Previous" %}</a></li>
             {% endif %}
 
-            <li class="page-item disabled"><span class="page-link current">ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+            <li class="page-item disabled"><span class="page-link current">{% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}</span></li>
 
             {% if page_obj.has_next %}
-                <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">次へ</a></li>
-                <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">最後</a></li>
+                <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">{% trans "Next" %}</a></li>
+                <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">{% trans "Last" %}</a></li>
             {% endif %}
         </ul>
     </nav>
+
+    <h2 id="recommended">{% trans "Recommended for You" %}</h2>
+    <ul class="product-list">
+        {% for product in recommended_products %}
+            <li class="product-content {% if product.popularity >= 100 %}bestseller{% endif %}">
+                <a href="{% url 'product_detail' product.pk %}">
+                    <strong>{{ product.name }}</strong> - ¥{{ product.price|floatformat:"0" }}
+                </a>
+                {% if product.popularity >= 100 %}
+                    <span class="badge">ベストセラー</span>
+                    <div class="stars"></div>
+                {% endif %}
+                <p>{% trans "Popularity:" %} {{ product.popularity }}</p>
+                <div class="popularity-bar">
+                    <div class="bar" style="width: {{ product.popularity|default_if_none:0 }}%;"></div>
+                </div>
+            </li>
+        {% empty %}
+            <li>{% trans "No recommended products found." %}</li>
+        {% endfor %}
+    </ul>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const bestsellerStars = document.querySelectorAll(".bestseller .stars");
+
+        bestsellerStars.forEach(stars => {
+            const createStar = () => {
+                const starEl = document.createElement("span");
+                starEl.className = "star";
+                const minSize = 4;
+                const maxSize = 13;
+                const size = Math.random() * (maxSize - minSize) + minSize;
+                starEl.style.width = `${size}px`;
+                starEl.style.height = `${size}px`;
+                starEl.style.left = `${Math.random() * 100}%`;
+                starEl.style.top = `${Math.random() * 100}%`;
+                starEl.style.animationDelay = `${Math.random() * 10}s`;
+                stars.appendChild(starEl);
+            };
+
+            for (let i = 0; i <= 60; i++) {
+                createStar();
+            }
+        });
+    });
+</script>
 </body>
 </html>
