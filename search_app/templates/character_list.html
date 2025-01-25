@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>キャラクター一覧</title>
+</head>
+<body>
+    <h1>キャラクター一覧</h1>
+    
+    <ul>
+        {% for character in characters %}
+            <li>
+                <!-- キャラクター詳細ページへのリンク -->
+                <a href="{% url 'character_detail' character.pk %}">{{ character.name }}</a>
+                <p>誕生日: {{ character.birth_year }}</p>
+                <p>性別: {{ character.gender }}</p>
+                
+                <!-- 編集ボタン -->
+                <form action="{% url 'character_edit' character.pk %}" method="get">
+                    <button type="submit" class="btn btn-secondary">
+                        {% trans "Edit Character" %} {{ character.name }}
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

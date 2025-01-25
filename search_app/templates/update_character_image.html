@@ -1,0 +1,7 @@
+<h1>{{ character.name }}の画像を更新</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">画像を更新</button>
+</form>
+<a href="{% url 'character_detail' pk=character.pk %}">戻る</a>

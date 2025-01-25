@@ -1,27 +1,28 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "Product Search" %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        @font-face {
+    <!DOCTYPE html>
+    <html lang="{{ LANGUAGE_CODE }}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+    @font-face {
             font-family: 'KikaiChokokuJIS';
             src: url("{% static 'fonts/GenEiNuGothic-EB.ttf' %}") format('opentype');
             font-weight: 100; 
             font-style: normal;
         }
         body {
-            background: url("{% static 'images/nier-test.png' %}") no-repeat center center fixed;
-            background-size: cover;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed; 
             color: #3b2f2f;
             font-family: 'KikaiChokokuJIS', 'Roboto', sans-serif;
-            font-weight: 400; 
+            font-weight: 400;
             margin: 0;
             padding: 0;
             scroll-behavior: smooth;
@@ -31,8 +32,10 @@
             max-width: 800px;
             margin: 100px auto;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0);
             border-radius: 10px;
+            background: none; 
+            box-shadow: none; 
+            border: none;
         }
 
         h1 {
@@ -193,6 +196,10 @@
             gap: 20px;
         }
 
+
+
+        
+
         .search-history-card {
             background-color: rgba(244, 241, 231, 0.8); 
             padding: 20px;
@@ -213,6 +220,61 @@
             color: #49463D;
             margin-bottom: 10px;
         }
+        .saber {
+    position: relative;
+    display: inline-block;
+    width: 700px;
+    height: 20px; 
+    margin: 20px;
+    background: #333; /
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+/* カラーピッカーのスタイル */
+.saber input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 50px); /* 持ち手部分を除く幅 */
+    height: 100%; /* 高さをセイバー全体に合わせる */
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* スワッチ（光の部分）のスタイル */
+.saber input[type="color"]::-webkit-color-swatch-wrapper {
+    border: none;
+    padding: 0;
+}
+
+.saber input[type="color"]::-webkit-color-swatch {
+    border: none;
+    width: 100%;
+    height: 100%;
+    display: block;
+    box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    border-radius: 10px;
+    background: currentColor;
+}
+
+/* ライトセイバーの持ち手 */
+.saber-handle {
+    position: absolute;
+    right: 0; /* 持ち手を右側に配置 */
+    width: 50px; /* 持ち手の幅 */
+    height: 100%;
+    background: #222; 
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+
 
         .search-history-body p {
             margin: 5px 0;
@@ -232,6 +294,11 @@
         .btn-danger:hover {
             background-color: #c82333;
         }
+
+        .dynamic-color {
+            color: #000; 
+            transition: color 0.3s ease; 
+}
 
         .bestseller .stars {
             position: absolute;
@@ -259,128 +326,245 @@
             50% { transform: scale(1.1); opacity: 1; }
             100% { opacity: 0; transform: scale(1); }
         }
+
+
+        .character-list {
+            margin-top: 30px;
+        }
+
+        .character-list li {
+            background-color: rgba(244, 241, 231, 0.8); 
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #d2b48c;
+            position: relative;
+            list-style-type: none; /* リストマーカーを削除 */
+        }
+
+        .character-list strong {
+            font-size: 1.2rem;
+            color: #3b2f2f;
+        }
+
+        .character-list p {
+            margin: 5px 0;
+            color: #49463D;
+            font-weight: 500;
+        }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>{% trans "Product Search" %}</h1>
+    <div class="background-controls">
+        <button id="randomBackground">{% trans "Random Background" %}</button>
+        <select id="backgroundSelector" class="dynamic-color">
+            <option value="{% static 'SW2/ajan-kloss-main_1cbd44e9.jpeg' %}">{% trans "Ajan Kloss" %}</option>
+            <option value="{% static 'SW2/alderaan-main_f5b676cf.jpeg' %}">{% trans "Alderaan" %}</option>
+            <option value="{% static 'SW2/andor-trivia-105_4ffc9493.jpeg' %}">{% trans "Felix" %}</option>
+            <option value="{% static 'SW2/arcana-main_4d93dd3a.jpeg' %}">{% trans "Arcana" %}</option>
+            <option value="{% static 'SW2/ben-kenobi-s-cave-main_cb038cbc.jpeg' %}">{% trans "Ben Kenobi's Cave" %}</option>
+            <option value="{% static 'SW2/canto-bight_6782d4fa.jpeg' %}">{% trans "Canto Bight" %}</option>
+            <option value="{% static 'SW2/coruscant-main_d2fad5f2.jpeg' %}">{% trans "Coruscant" %}</option>
+            <option value="{% static 'SW2/databank_christophsis_01_169_2daae94e.jpeg' %}">{% trans "Christophsis" %}</option>
+            <option value="{% static 'SW2/databank_cloudcity_01_169_e589ba2c.jpeg' %}">{% trans "Cloud City" %}</option>
+            <option value="{% static 'SW2/databank_felucia_01_169_2070e38e.jpeg' %}">{% trans "Felucia" %}</option>
+            <option value="{% static 'SW2/databank_geonosis_01_169_1d04e086.jpeg' %}">{% trans "Geonosis" %}</option>
+            <option value="{% static 'SW2/databank_kasyyyk_01_169_aa13a490.jpeg' %}">{% trans "Kashyyyk" %}</option>
+            <option value="{% static 'SW2/Death-Star-I-copy_36ad2500.jpeg' %}">{% trans "Death Star I" %}</option>
+            <option value="{% static 'SW2/dune-sea-main_26f2fcee.jpeg' %}">{% trans "Dune Sea" %}</option>
+            <option value="{% static 'SW2/family-reunion-20_40c22654.jpeg' %}">{% trans "throne" %}</option>
+            <option value="{% static 'SW2/image_151a7136.jpeg' %}">{% trans "Garel" %}</option>
+            <option value="{% static 'SW2/jabba-the-hutt-s-palace-main_3b79a010.jpeg' %}">{% trans "Jabba's Palace" %}</option>
+            <option value="{% static 'SW2/kef-bir-main_576f898f.jpeg' %}">{% trans "Kef Bir" %}</option>
+            <option value="{% static 'SW2/kessel-main_9ebae664.jpeg' %}">{% trans "Kessel" %}</option>
+            <option value="{% static 'SW2/kijimi-city-main_530d8d0c.jpeg' %}">{% trans "Kijimi City" %}</option>
+            <option value="{% static 'SW2/lothal-main_4b6d48c0.jpeg' %}">{% trans "Lothal" %}</option>
+            <option value="{% static 'SW2/mount-tantiss-main_908cff6b.jpeg' %}">{% trans "Mount Tantiss" %}</option>
+            <option value="{% static 'SW2/nevarro-main_deddc805.jpeg' %}">{% trans "Nevarro" %}</option>
+            <option value="{% static 'SW2/pabu-main_e05c85ab.jpeg' %}">{% trans "Pabu" %}</option>
+            <option value="{% static 'SW2/rebel-massassi-outpost-main_6f7094bd.jpeg' %}">{% trans "Massassi Outpost" %}</option>
+            <option value="{% static 'SW2/savareen-main_3d3f60bc.jpeg' %}">{% trans "Savareen" %}</option>
+            <option value="{% static 'SW2/scarif-main-b_f5298baa.jpeg' %}">{% trans "Scarif" %}</option>
+            <option value="{% static 'SW2/sol-main_45371eb1.jpeg' %}">{% trans "Sol" %}</option>
+            <option value="{% static 'SW2/takodana_37fe9f0e.jpeg' %}">{% trans "Takodana" %}</option>
+            <option value="{% static 'SW2/theed-palace_84f09a19.jpeg' %}">{% trans "Theed Palace" %}</option>
+        </select>
+        
+        <button id="lockBackground">{% trans "Lock Background" %}</button>
+        <button id="unlockBackground">{% trans "Unlock Background" %}</button>
+    </div>
+    
+    <div class="background-controls">
+        <label for="textColorPicker" class="saber-label">{% trans "Select Your Saber" %}:</label>
+        <div class="saber">
+            <input type="color" id="textColorPicker" value="#ffffff">
+            <div class="saber-handle"></div>
+        </div>
+        
+    </div>
+    
+    
+    
 
+<div class="container">
+    <h1 class="dynamic-color">
+        <img src="{% static 'images/da40338c3dd374a330feff688d8226dc.png' %}" 
+             alt="Star Wars Logo" 
+             style="width: 700px; height: auto;">
+    </h1>
+    
+    
     <nav class="navbar bg-transparent">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav text-center">
-                <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">{% trans "Go to Product Management" %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'product_create' %}">{% trans "+ Add New Product" %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'category_create' %}">{% trans "+ Add New Category" %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="#recommended">{% trans "Recommended Ranking" %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="/en/">English</a></li>
-                <li class="nav-item"><a class="nav-link" href="/ja/">日本語</a></li>
+                <li class="nav-item"><a class="nav-link dynamic-color" href="{% url 'product_list' %}">{% trans "Go to Product Management" %}</a></li>
+                <li class="nav-item"><a class="nav-link dynamic-color" href="{% url 'product_create' %}">{% trans "+ Add New Product" %}</a>
+                <li class="nav-item"><a class="nav-link dynamic-color" href="{% url 'category_create' %}">{% trans "+ Add New Category" %}</a></li>
+                <li class="nav-item"><a class="nav-link dynamic-color" href="#recommended">{% trans "Recommended Ranking" %}</a></li>
+                <li class="nav-item"><a class="nav-link dynamic-color" href="/en/">English</a></li>
+                <li class="nav-item"><a class="nav-link dynamic-color" href="/ja/">日本語</a></li>
                 <a href="{% url 'swapi_character_search' %}">キャラクター検索</a>
-
+    
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <form id="logout-form" action="{% url 'logout' %}" method="post" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" class="nav-link btn-primary">{% trans "Logout" %}</button>
+                            <button type="submit" class="nav-link btn-primary dynamic-color">{% trans "Logout" %}</button>
                         </form>
                     </li>
                 {% else %}
-                    <li class="nav-item"><a class="nav-link btn-primary" href="{% url 'login' %}">{% trans "Login" %}</a></li>
+                    <li class="nav-item"><a class="nav-link btn-primary dynamic-color" href="{% url 'login' %}">{% trans "Login" %}</a></li>
+                    <li class="nav-item"><a class="nav-link btn-secondary dynamic-color" href="{% url 'register' %}">{% trans "Register" %}</a></li>
                 {% endif %}
             </ul>
         </div>
     </nav>
     
 
-    <form method="get" class="search-form">
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
+    <form method="get" class="mb-4">
+        <h2 class="dynamic-color dynamic-color">{% trans "Star Wars Character Search" %}</h2>
+        <label for="character" class="dynamic-color dynamic-color">{% trans "Character Name:" %}</label>
+        <input type="text" name="character" id="character" value="{{ character_name }}" class="form-control mb-2" placeholder="{% trans 'Enter character name' %}">
+        <button type="submit" class="btn btn-primary dynamic-color dynamic-color">{% trans "Search" %}</button>
     </form>
+
+
+
+
+
+    {% for character in characters %}
+    {% if character.pk %}
+        <form action="{% url 'character_edit' character.pk %}" method="get">
+            <button type="submit" class="btn btn-secondary">
+                {% trans "Edit Character: " %} {{ character.name }}
+            </button>
+        </form>
+    {% else %}
+        <!-- キャラクター情報がありませんというメッセージや他の処理を追加 -->
+    {% endif %}
+{% endfor %}
+
+
+
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; 最初</a>
+                <a href="?page={{ page_obj.previous_page_number }}">前</a>
+            {% endif %}
+            
+            <span class="current">
+                ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }} 
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">次</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">最後 &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    
+    
+    
+    <form method="get" class="search-form">
+        <label for="query" class="dynamic-color">{% trans "Search Keyword:" %}</label>
+        <input type="text" name="query" id="query" class="form-control mb-3 dynamic-color" placeholder="{% trans 'Enter the keyword to search' %}">
+    
+        <label for="category" class="dynamic-color">{% trans "Category:" %}</label>
+        <select name="category" id="category" class="form-control mb-3 dynamic-color">
+            <option value="">{% trans "--------- Select a category ---------" %}</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="min_price" class="dynamic-color">{% trans "Minimum Price" %}</label>
+        <input type="number" name="min_price" id="min_price" class="form-control mb-3 dynamic-color" placeholder="{% trans 'Minimum Price' %}">
+    
+        <label for="max_price" class="dynamic-color">{% trans "Maximum Price" %}</label>
+        <input type="number" name="max_price" id="max_price" class="form-control mb-3 dynamic-color" placeholder="{% trans 'Maximum Price' %}">
+    
+        <label for="sort_by" class="dynamic-color">{% trans "Sort By:" %}</label>
+        <select name="sort_by" id="sort_by" class="form-control mb-3 dynamic-color">
+            <option value="price_asc dynamic-color">{% trans "Price (Low to High)" %}</option>
+            <option value="price_desc dynamic-color">{% trans "Price (High to Low)" %}</option>
+            <option value="name_asc dynamic-color">{% trans "Name (Ascending)" %}</option>
+            <option value="name_desc dynamic-color">{% trans "Name (Descending)" %}</option>
+            <option value="popularity dynamic-color">{% trans "Popularity" %}</option>
+        </select>
+        
+        <button type="submit" class="btn btn-primary dynamic-color">{% trans "Search" %}</button>
+    </form>
+
+
+    <ul class="character-list">
+        {% for character in characters %}
+            <li>
+                {% if character.image %}
+                    <img src="{{ character.image.url }}" alt="{{ character.name }}" style="width: 150px; height: auto;">
+                {% endif %}
+                <a href="{{ character.url }}" target="_blank">
+                    <strong>{{ character.name }}</strong>
+                </a>
+                <p><strong>{% trans "Height:" %}</strong> {{ character.height }} cm</p>
+                <p><strong>{% trans "Mass:" %}</strong> {{ character.mass }} kg</p>
+                <p><strong>{% trans "Hair Color:" %}</strong> {{ character.hair_color }}</p>
+                <p><strong>{% trans "Skin Color:" %}</strong> {{ character.skin_color }}</p>
+                <p><strong>{% trans "Eye Color:" %}</strong> {{ character.eye_color }}</p>
+                <p><strong>{% trans "Birth Year:" %}</strong> {{ character.birth_year }}</p>
+                <p><strong>{% trans "Gender:" %}</strong> {{ character.gender }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    
+    
+    
+
+    
+
+
+    <form method="get" class="mb-4">
+        <h2 class="dynamic-color dynamic-color">{% trans "Star Wars Character Search" %}</h2>
+        <label for="character" class="dynamic-color dynamic-color">{% trans "Character Name:" %}</label>
+        <input type="text" name="character" id="character" value="{{ character_name }}" class="form-control mb-2" placeholder="{% trans 'Enter character name' %}">
+        <button type="submit" class="btn btn-primary dynamic-color dynamic-color">{% trans "Search" %}</button>
+    </form>
+    
+    
+    
+
+    
 
     <ul class="product-list">
         {% for product in page_obj %}
             <li class="{% if product.popularity >= 100 %}bestseller{% endif %}">
-                <a href="{% url 'product_detail' product.pk %}">
-                    <strong>{{ product.name }}</strong> - ¥{{ product.price|floatformat:"0" }}
-                </a>
-                {% if product.popularity >= 100 %}
-                    <span class="badge">{% trans "ベストセラー" %}</span>
-                    <div class="stars"></div>
-                {% endif %}
-                <p>{% trans "Popularity:" %} {{ product.popularity }}</p>
-                <div class="popularity-bar">
-                    <div class="bar" style="width: {{ product.popularity|default_if_none:0 }}%;"></div>
-                </div>
-            </li>
-        {% empty %}
-            <li>{% trans "No products found." %}</li>
-        {% endfor %}
-    </ul>
-
-    <h2 class="mt-5">{% trans "Search History" %}</h2>
-    <div class="search-history-container">
-        {% for history in search_history %}
-            <div class="search-history-card">
-                <div class="search-history-header">
-                    <a href="?query={{ history.query }}&category={{ history.category }}&min_price={{ history.min_price }}&max_price={{ history.max_price }}&sort_by={{ history.sort_by }}">
-                        <strong>{% trans "Search Keyword:" %}</strong> {{ history.query }}
-                    </a>
-                </div>
-                <div class="search-history-body">
-                    <p><strong>{% trans "Category:" %}</strong> {{ history.category }}</p>
-                    <p><strong>{% trans "Min Price:" %}</strong> ¥{{ history.min_price|floatformat:0|default:"-" }}</p>
-                    <p><strong>{% trans "Max Price:" %}</strong> ¥{{ history.max_price|floatformat:0|default:"-" }}</p>
-                    <p><strong>{% trans "Sort By:" %}</strong> 
-                    {% if history.sort_by == 'popularity' %}
-                        {% trans "Popularity" %}
-                    {% elif history.sort_by == 'price_asc' %}
-                        {% trans "Price (Low to High)" %}
-                    {% elif history.sort_by == 'price_desc' %}
-                        {% trans "Price (High to Low)" %}
-                    {% elif history.sort_by == 'name_asc' %}
-                        {% trans "Name (Ascending)" %}
-                    {% elif history.sort_by == 'name_desc' %}
-                        {% trans "Name (Descending)" %}
-                    {% else %}
-                        {{ history.sort_by }}
-                    {% endif %}
-                    </p>
-                </div>
-                <form method="post" action="{% url 'delete_search_history' history.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
-                </form>
-            </div>
-        {% empty %}
-            <div class="search-history-card">
-                <p>{% trans "No search history available." %}</p>
-            </div>
-        {% endfor %}
-    </div>
-
-    <nav class="pagination">
-        <ul class="pagination">
-            {% if page_obj.has_previous %}
-                <li class="page-item"><a href="?page=1" class="page-link">{% trans "First" %}</a></li>
-                <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">{% trans "Previous" %}</a></li>
-            {% endif %}
-
-            <li class="page-item disabled"><span class="page-link current">{% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}</span></li>
-
-            {% if page_obj.has_next %}
-                <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">{% trans "Next" %}</a></li>
-                <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">{% trans "Last" %}</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-
-    <h2 id="recommended">{% trans "Recommended for You" %}</h2>
-    <ul class="product-list">
-        {% for product in recommended_products %}
-            <li class="product-content {% if product.popularity >= 100 %}bestseller{% endif %}">
                 <a href="{% url 'product_detail' product.pk %}">
                     <strong>{{ product.name }}</strong> - ¥{{ product.price|floatformat:"0" }}
                 </a>
@@ -397,33 +581,202 @@
             <li>{% trans "No recommended products found." %}</li>
         {% endfor %}
     </ul>
+    
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const bestsellerStars = document.querySelectorAll(".bestseller .stars");
+document.addEventListener("DOMContentLoaded", () => {
+    const backgroundSelector = document.getElementById("backgroundSelector");
+    const randomButton = document.getElementById("randomBackground");
+    const lockButton = document.getElementById("lockBackground");
+    const unlockButton = document.getElementById("unlockBackground"); 
 
-        bestsellerStars.forEach(stars => {
-            const createStar = () => {
-                const starEl = document.createElement("span");
-                starEl.className = "star";
-                const minSize = 4;
-                const maxSize = 13;
-                const size = Math.random() * (maxSize - minSize) + minSize;
-                starEl.style.width = `${size}px`;
-                starEl.style.height = `${size}px`;
-                starEl.style.left = `${Math.random() * 100}%`;
-                starEl.style.top = `${Math.random() * 100}%`;
-                starEl.style.animationDelay = `${Math.random() * 10}s`;
-                stars.appendChild(starEl);
-            };
+    const images = [
+    "{% static 'SW2/ajan-kloss-main_1cbd44e9.jpeg' %}",
+    "{% static 'SW2/alderaan-main_f5b676cf.jpeg' %}",
+    "{% static 'SW2/andor-trivia-105_4ffc9493.jpeg' %}",
+    "{% static 'SW2/arcana-main_4d93dd3a.jpeg' %}",
+    "{% static 'SW2/ben-kenobi-s-cave-main_cb038cbc.jpeg' %}",
+    "{% static 'SW2/canto-bight_6782d4fa.jpeg' %}",
+    "{% static 'SW2/coruscant-main_d2fad5f2.jpeg' %}",
+    "{% static 'SW2/databank_christophsis_01_169_2daae94e.jpeg' %}",
+    "{% static 'SW2/databank_cloudcity_01_169_e589ba2c.jpeg' %}",
+    "{% static 'SW2/databank_felucia_01_169_2070e38e.jpeg' %}",
+    "{% static 'SW2/databank_geonosis_01_169_1d04e086.jpeg' %}",
+    "{% static 'SW2/databank_kasyyyk_01_169_aa13a490.jpeg' %}",
+    "{% static 'SW2/databank_utapau_01_169_14a.jpeg' %}",
+    "{% static 'SW2/Death-Star-I-copy_36ad2500.jpeg' %}",
+    "{% static 'SW2/dune-sea-main_26f2fcee.jpeg' %}",
+    "{% static 'SW2/family-reunion-20_40c22654.jpeg' %}",
+    "{% static 'SW2/image_151a7136.jpeg' %}",
+    "{% static 'SW2/jabba-the-hutt-s-palace-main_3b79a010.jpeg' %}",
+    "{% static 'SW2/kef-bir-main_576f898f.jpeg' %}",
+    "{% static 'SW2/kessel-main_9ebae664.jpeg' %}",
+    "{% static 'SW2/kijimi-city-main_530d8d0c.jpeg' %}",
+    "{% static 'SW2/lothal-main_4b6d48c0.jpeg' %}",
+    "{% static 'SW2/mount-tantiss-main_908cff6b.jpeg' %}",
+    "{% static 'SW2/nevarro-main_deddc805.jpeg' %}",
+    "{% static 'SW2/pabu-main_e05c85ab.jpeg' %}",
+    "{% static 'SW2/rebel-massassi-outpost-main_6f7094bd.jpeg' %}",
+    "{% static 'SW2/ryloth-bio-8_81ce8d86.jpeg' %}",
+    "{% static 'SW2/savareen-main_3d3f60bc.jpeg' %}",
+    "{% static 'SW2/scarif-main-b_f5298baa.jpeg' %}",
+    "{% static 'SW2/sol-main_45371eb1.jpeg' %}",
+    "{% static 'SW2/takodana_37fe9f0e.jpeg' %}",
+    "{% static 'SW2/theed-palace_84f09a19.jpeg' %}"
+];
 
-            for (let i = 0; i <= 60; i++) {
-                createStar();
-            }
-        });
+const backgroundColors = {
+    "{% static 'SW2/ajan-kloss-main_1cbd44e9.jpeg' %}": "#000000",
+    "{% static 'SW2/alderaan-main_f5b676cf.jpeg' %}": "#000000",
+    "{% static 'SW2/andor-trivia-105_4ffc9493.jpeg' %}": "#000000",
+    "{% static 'SW2/arcana-main_4d93dd3a.jpeg' %}": "#000000",
+    "{% static 'SW2/ben-kenobi-s-cave-main_cb038cbc.jpeg' %}": "#deb887",
+    "{% static 'SW2/canto-bight_6782d4fa.jpeg' %}": "#ffd700",
+    "{% static 'SW2/coruscant-main_d2fad5f2.jpeg' %}": "#000000",
+    "{% static 'SW2/databank_christophsis_01_169_2daae94e.jpeg' %}": "#000000",
+    "{% static 'SW2/databank_cloudcity_01_169_e589ba2c.jpeg' %}": "#000000",
+    "{% static 'SW2/databank_felucia_01_169_2070e38e.jpeg' %}": "#000000",
+    "{% static 'SW2/databank_geonosis_01_169_1d04e086.jpeg' %}": "#000000",
+    "{% static 'SW2/databank_kasyyyk_01_169_aa13a490.jpeg' %}": "#000000",
+    "{% static 'SW2/Death-Star-I-copy_36ad2500.jpeg' %}": "#fff000",
+    "{% static 'SW2/dune-sea-main_26f2fcee.jpeg' %}": "#000000",
+    "{% static 'SW2/e-306-episodic-nonspoiler-cl.jpeg' %}": "#000000",
+    "{% static 'SW2/family-reunion-20_40c22654.jpeg' %}": "#000000",
+    "{% static 'SW2/image_151a7136.jpeg' %}": "#000000",
+    "{% static 'SW2/jabba-the-hutt-s-palace-main_3b79a010.jpeg' %}": "#000000",
+    "{% static 'SW2/kef-bir-main_576f898f.jpeg' %}": "#000000",
+    "{% static 'SW2/kessel-main_9ebae664.jpeg' %}": "#000000",
+    "{% static 'SW2/kijimi-city-main_530d8d0c.jpeg' %}": "#000000",
+    "{% static 'SW2/lothal-main_4b6d48c0.jpeg' %}": "#000000",
+    "{% static 'SW2/mount-tantiss-main_908cff6b.jpeg' %}": "#000000",
+    "{% static 'SW2/nevarro-main_deddc805.jpeg' %}": "#000000",
+    "{% static 'SW2/pabu-main_e05c85ab.jpeg' %}": "#000000",
+    "{% static 'SW2/rebel-massassi-outpost-main_6f7094bd.jpeg' %}": "#000000",
+    "{% static 'SW2/ryloth-bio-8_81ce8d86.jpeg' %}": "#000000",
+    "{% static 'SW2/savareen-main_3d3f60bc.jpeg' %}": "#000000",
+    "{% static 'SW2/scarif-main-b_f5298baa.jpeg' %}": "#000000",
+    "{% static 'SW2/sol-main_45371eb1.jpeg' %}": "#000000",
+    "{% static 'SW2/takodana_37fe9f0e.jpeg' %}": "#000000",
+    "{% static 'SW2/theed-palace_84f09a19.jpeg' %}": "#000000"
+};
+
+    const STORAGE_KEY = "lockedBackground";
+
+    function setBackground(image) {
+    if (!image) {
+        console.warn("Invalid image URL. Setting default background.");
+        image = "{% static 'SW2/default-background.jpeg' %}"; // デフォルト画像を指定
+    }
+    document.body.style.backgroundImage = `url("${image}")`;
+
+    const textColor = backgroundColors[image] || "#FFFFFF";
+    const elements = document.querySelectorAll(".dynamic-color");
+    elements.forEach((el) => {
+        el.style.color = textColor;
     });
+}
+
+
+function setRandomBackground() {
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    setBackground(randomImage);
+    return randomImage;
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const textColorPicker = document.getElementById("textColorPicker");
+
+    if (textColorPicker) {
+        textColorPicker.addEventListener("input", (event) => {
+            const selectedColor = event.target.value;
+
+            // `dynamic-color`クラスを持つすべての要素の色を変更
+            const elements = document.querySelectorAll(".dynamic-color");
+            elements.forEach((el) => {
+                el.style.color = selectedColor;
+            });
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+function lockBackground() {
+    const currentBackground = document.body.style.backgroundImage;
+    if (currentBackground) {
+        const match = currentBackground.match(/url\("(.*)"\)/);
+        const backgroundUrl = match ? match[1] : null;
+        if (backgroundUrl) {
+            localStorage.setItem(STORAGE_KEY, backgroundUrl);
+            alert("背景をロックしました！");
+        }
+    }
+}
+
+function unlockBackground() {
+    localStorage.removeItem(STORAGE_KEY);
+    alert("背景のロックを解除しました！");
+    const randomImage = setRandomBackground();
+    if (backgroundSelector) backgroundSelector.value = randomImage;
+}
+
+function loadLockedBackground() {
+    const lockedBackground = localStorage.getItem(STORAGE_KEY);
+    if (lockedBackground) {
+        setBackground(lockedBackground);
+
+        if (backgroundSelector) {
+            for (let option of backgroundSelector.options) {
+                if (option.value === lockedBackground) {
+                    backgroundSelector.value = option.value;
+                    break;
+                }
+            }
+        }
+    } else {
+        const randomImage = setRandomBackground();
+        if (backgroundSelector) backgroundSelector.value = randomImage;
+    }
+}
+
+// イベントリスナーの登録
+if (backgroundSelector) {
+    backgroundSelector.addEventListener("change", (event) => {
+        const selectedImage = event.target.value;
+        setBackground(selectedImage);
+    });
+}
+
+if (randomButton) {
+    randomButton.addEventListener("click", () => {
+        const randomImage = setRandomBackground();
+        if (backgroundSelector) backgroundSelector.value = randomImage;
+    });
+}
+
+if (lockButton) {
+    lockButton.addEventListener("click", lockBackground);
+}
+
+if (unlockButton) {
+    unlockButton.addEventListener("click", unlockBackground);
+}
+
+// 初期化: ロックされた背景を読み込む
+loadLockedBackground();
+
+});
 </script>
+
+
 </body>
 </html>

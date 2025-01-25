@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% trans 'Search Results' %}</h1>
+{% if character_results %}
+    <h2>{% trans 'Characters' %}</h2>
+    <ul>
+    {% for character in character_results %}
+        <li>
+            <h3>{{ character.name }}</h3>
+            <p>{{ character.description }}</p>
+            {% if character.image %}
+                <img src="{{ character.image.url }}" alt="{{ character.name }}">
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if product_results %}
+    <h2>{% trans 'Products' %}</h2>
+    <ul>
+    {% for product in product_results %}
+        <li>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <p>{% trans 'Price' %}: {{ product.price }}</p>
+            <p>{% trans 'Category' %}: {{ product.category.name }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if not character_results and not product_results %}
+    <p>{% trans 'No results found.' %}</p>
+{% endif %}
+{% endblock %}

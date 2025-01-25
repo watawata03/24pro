@@ -1,0 +1,25 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% trans "Character Form" %}</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1>{% trans "Create a Character" %}</h1>
+        <form method="post" enctype="multipart/form-data" class="form-container">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Django フォームのフィールドをレンダリング -->
+            <button type="submit" class="btn btn-primary">
+                {% trans "Save Character" %}
+            </button>
+        </form>
+    </div>
+</body>
+</html>

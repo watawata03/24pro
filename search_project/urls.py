@@ -7,12 +7,13 @@ from django.conf.urls.i18n import set_language
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
-    path('', include('search_app.urls')),  
+    path('', include('search_app.urls')), 
+     
 )
 
 urlpatterns += [
     path('i18n/setlang/', set_language, name='set_language'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

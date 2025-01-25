@@ -14,124 +14,128 @@ msgstr ""
 
 #: search_app/templates/search.html:9 search_app/templates/search.html:211
 msgid "Product Search"
-msgstr ""
+msgstr "Product Search"
 
 #: search_app/templates/search.html:214
 msgid "Go to Product Management"
-msgstr ""
+msgstr "Go to Product Management"
 
 #: search_app/templates/search.html:215
 msgid "+ Add New Product"
-msgstr ""
+msgstr "+ Add New Product"
 
 #: search_app/templates/search.html:216
 msgid "+ Add New Category"
-msgstr ""
+msgstr "+ Add New Category"
 
 #: search_app/templates/search.html:217
 msgid "Recommended Ranking"
-msgstr ""
+msgstr "Recommended Ranking"
 
 #: search_app/templates/search.html:227
 msgid "Search"
-msgstr ""
+msgstr "Search"
 
 #: search_app/templates/search.html:232
 msgid "Total products found:"
-msgstr ""
+msgstr "Total products found:"
 
 #: search_app/templates/search.html:232
 msgid "items"
-msgstr ""
+msgstr "items"
 
 #: search_app/templates/search.html:241 search_app/templates/search.html:318
 msgid "Popularity:"
-msgstr ""
+msgstr "Popularity:"
 
 #: search_app/templates/search.html:247
 msgid "No products found."
-msgstr ""
+msgstr "No products found."
 
 #: search_app/templates/search.html:252
 msgid "Search History"
-msgstr ""
+msgstr "Search History"
 
 #: search_app/templates/search.html:258
 msgid "Search Keyword:"
-msgstr ""
+msgstr "Search Keyword:"
 
 #: search_app/templates/search.html:262
 msgid "Category:"
-msgstr ""
+msgstr "Category:"
 
 #: search_app/templates/search.html:263
 msgid "Min Price:"
-msgstr ""
+msgstr "Min Price:"
 
 #: search_app/templates/search.html:264
 msgid "Max Price:"
-msgstr ""
+msgstr "Max Price:"
 
 #: search_app/templates/search.html:265
 msgid "Sort By:"
-msgstr ""
+msgstr "Sort By:"
 
 #: search_app/templates/search.html:267
 msgid "Popularity"
-msgstr ""
+msgstr "Popularity"
 
 #: search_app/templates/search.html:269
 msgid "Price (Low to High)"
-msgstr ""
+msgstr "Price (Low to High)"
 
 #: search_app/templates/search.html:271
 msgid "Price (High to Low)"
-msgstr ""
+msgstr "Price (High to Low)"
 
 #: search_app/templates/search.html:273
 msgid "Name (Ascending)"
-msgstr ""
+msgstr "Name (Ascending)"
 
 #: search_app/templates/search.html:275
 msgid "Name (Descending)"
-msgstr ""
+msgstr "Name (Descending)"
 
 #: search_app/templates/search.html:284
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 #: search_app/templates/search.html:289
 msgid "No search history available."
-msgstr ""
+msgstr "No search history available."
 
 #: search_app/templates/search.html:297
 msgid "First"
-msgstr ""
+msgstr "First"
 
 #: search_app/templates/search.html:298
 msgid "Previous"
-msgstr ""
+msgstr "Previous"
 
 #: search_app/templates/search.html:301
 msgid "Page"
-msgstr ""
+msgstr "Page"
 
 #: search_app/templates/search.html:301
 msgid "of"
-msgstr ""
+msgstr "of"
 
 #: search_app/templates/search.html:304
 msgid "Next"
-msgstr ""
+msgstr "Next"
 
 #: search_app/templates/search.html:305
 msgid "Last"
-msgstr ""
+msgstr "Last"
 
 #: search_app/templates/search.html:311
 msgid "Recommended for You"
-msgstr ""
+msgstr "Recommended for You"
 
 #: search_app/templates/search.html:324
 msgid "No recommended products found."
-msgstr ""
+msgstr "No recommended products found."
+
+#: product_list.html:XXX
+msgid "Add New Project"
+msgstr "Add New Project"

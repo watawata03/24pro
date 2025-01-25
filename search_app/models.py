@@ -8,6 +8,24 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+class Character(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.CharField(max_length=100, blank=True, null=True)
+    birth_year = models.CharField(max_length=50, blank=True, null=True)
+    eye_color = models.CharField(max_length=50, blank=True, null=True)
+    gender = models.CharField(max_length=50, blank=True, null=True)
+    hair_color = models.CharField(max_length=50, blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)
+    mass = models.FloatField(blank=True, null=True)
+    skin_color = models.CharField(max_length=50, blank=True, null=True)
+    url = models.URLField(blank=True, null=True)  # 新しく追加されたフィールド
+    
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -32,6 +50,7 @@ class Product(models.Model):
             GinIndex(fields=['description'], opclasses=['gin_trgm_ops'], name='product_description_gin_idx'),
         ]
 
+
 class SearchHistory(models.Model):
     query = models.CharField(max_length=255, blank=True, null=True)
     category = models.CharField(max_length=255, blank=True, null=True)
@@ -42,3 +61,7 @@ class SearchHistory(models.Model):
 
     def __str__(self):
         return f"キーワード: {self.query}, カテゴリ: {self.category}, 最低価格: {self.min_price}, 最高価格: {self.max_price}, 並び替え: {self.sort_by}"
+    
+
+class UserPreferences(models.Model):
+    text_color = models.CharField(max_length=7, default="#000000")

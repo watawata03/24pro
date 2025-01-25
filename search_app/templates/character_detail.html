@@ -1,0 +1,13 @@
+<h1>{{ character.name }}の詳細</h1>
+<ul>
+    <li>生年: {{ character.birth_year }}</li>
+    <li>性別: {{ character.gender }}</li>
+    <li>髪の色: {{ character.hair_color }}</li>
+    <li>目の色: {{ character.eye_color }}</li>
+    <li>身長: {{ character.height }} cm</li>
+    <li>体重: {{ character.mass }} kg</li>
+    <li>肌の色: {{ character.skin_color }}</li>
+    <li>URL: <a href="{{ character.url }}" target="_blank">{{ character.url }}</a></li>
+    <li><img src="{{ character.image.url }}" alt="画像" /></li>
+</ul>
+<a href="{% url 'character_edit' pk=character.pk %}">編集する</a>

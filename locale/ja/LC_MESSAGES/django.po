@@ -1,130 +1,504 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-29 14:03+0900\n"
+"POT-Creation-Date: 2025-01-05 18:32+0900\n"
 "Language: ja\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: search_app/templates/search.html:9 search_app/templates/search.html:211
+#: django/24pro/search_app/templates/password_reset_confirm.html:6
+#: django/24pro/search_app/templates/password_reset_confirm.html:9
+#: search_app/templates/password_reset_confirm.html:6
+#: search_app/templates/password_reset_confirm.html:9
+msgid "Reset Your Password"
+msgstr ""
+
+#: django/24pro/search_app/templates/password_reset_confirm.html:13
+#: search_app/templates/password_reset_confirm.html:13
+msgid "Change Password"
+msgstr ""
+
+#: django/24pro/search_app/templates/password_reset_done.html:6
+#: django/24pro/search_app/templates/password_reset_done.html:9
+#: search_app/templates/password_reset_done.html:6
+#: search_app/templates/password_reset_done.html:9
+msgid "Password Reset Sent"
+msgstr ""
+
+#: django/24pro/search_app/templates/password_reset_done.html:10
+#: search_app/templates/password_reset_done.html:10
+msgid ""
+"If an account exists with the email you entered, you will receive a link to "
+"reset your password shortly."
+msgstr ""
+
+#: django/24pro/search_app/templates/password_reset_form.html:6
+#: django/24pro/search_app/templates/password_reset_form.html:9
+#: search_app/templates/password_reset_form.html:6
+#: search_app/templates/password_reset_form.html:9
+msgid "Password Reset"
+msgstr ""
+
+#: django/24pro/search_app/templates/password_reset_form.html:10
+#: search_app/templates/password_reset_form.html:10
+msgid "Enter your email address to receive a link to reset your password."
+msgstr ""
+
+#: django/24pro/search_app/templates/password_reset_form.html:14
+#: search_app/templates/password_reset_form.html:14
+msgid "Send Reset Link"
+msgstr ""
+
+#: django/24pro/search_app/templates/registration/login.html:7
+#: django/24pro/search_app/templates/registration/login.html:10
+#: django/24pro/search_app/templates/registration/login.html:27
+#: search_app/templates/registration/login.html:7
+#: search_app/templates/registration/login.html:10
+#: search_app/templates/registration/login.html:27
+msgid "ログイン"
+msgstr ""
+
+#: django/24pro/search_app/templates/registration/login.html:21
+#: search_app/templates/registration/login.html:21
+msgid "ユーザーネーム"
+msgstr ""
+
+#: django/24pro/search_app/templates/registration/login.html:24
+#: search_app/templates/registration/login.html:24
+msgid "パスワード"
+msgstr ""
+
+#: django/24pro/search_app/templates/registration/login.html:30
+#: search_app/templates/registration/login.html:30
+msgid "パスワードをお忘れですか?"
+msgstr ""
+
+#: django/24pro/search_app/templates/search.html:9
+#: django/24pro/search_app/templates/search.html:267
+#: search_app/templates/search.html:9 search_app/templates/search.html:308
 msgid "Product Search"
 msgstr "商品検索"
 
-#: search_app/templates/search.html:214
+#: django/24pro/search_app/templates/search.html:275
+#: search_app/templates/search.html:316
 msgid "Go to Product Management"
 msgstr "商品管理画面へ"
 
-#: search_app/templates/search.html:215
+#: django/24pro/search_app/templates/search.html:276
+#: search_app/templates/search.html:317
 msgid "+ Add New Product"
 msgstr "新しい商品を追加"
 
-#: search_app/templates/search.html:216
+#: django/24pro/search_app/templates/search.html:277
+#: search_app/templates/search.html:318
 msgid "+ Add New Category"
 msgstr "新しいカテゴリを追加"
 
-#: search_app/templates/search.html:217
+#: django/24pro/search_app/templates/search.html:278
+#: search_app/templates/search.html:319
 msgid "Recommended Ranking"
-msgstr "あなたへのおすすめ"
+msgstr "おすすめランキング"
 
-#: search_app/templates/search.html:227
+#: django/24pro/search_app/templates/search.html:287
+#: search_app/templates/search.html:328
+msgid "Logout"
+msgstr "ログアウト"
+
+#: django/24pro/search_app/templates/search.html:291
+#: search_app/templates/search.html:332
+msgid "Login"
+msgstr "ログイン"
+
+#: django/24pro/search_app/templates/search.html:300
+#: search_app/templates/search.html:344 search_app/templates/search.html:375
 msgid "Search"
 msgstr "検索"
 
-#: search_app/templates/search.html:232
-msgid "Total products found:"
-msgstr "見つかった商品"
+#: django/24pro/search_app/templates/search.html:310
+#: search_app/templates/search.html:388
+msgid "ベストセラー"
+msgstr ""
 
-#: search_app/templates/search.html:232
-msgid "items"
-msgstr "商品"
-
-#: search_app/templates/search.html:241 search_app/templates/search.html:330
+#: django/24pro/search_app/templates/search.html:313
+#: django/24pro/search_app/templates/search.html:391
+#: search_app/templates/search.html:391 search_app/templates/search.html:469
 msgid "Popularity:"
-msgstr "人気度"
+msgstr "人気度："
 
-#: search_app/templates/search.html:247
+#: django/24pro/search_app/templates/search.html:319
+#: search_app/templates/product_list.html:159
+#: search_app/templates/search.html:397
 msgid "No products found."
-msgstr "該当する製品は見つかりませんでした。"
+msgstr "該当する商品が見つかりませんでした。"
 
-#: search_app/templates/search.html:252
+#: django/24pro/search_app/templates/search.html:323
+#: search_app/templates/search.html:401
 msgid "Search History"
 msgstr "検索履歴"
 
-#: search_app/templates/search.html:258
+#: django/24pro/search_app/templates/search.html:329
+#: search_app/templates/search.html:349 search_app/templates/search.html:407
 msgid "Search Keyword:"
-msgstr "検索キーワード"
+msgstr "検索キーワード："
 
-#: search_app/templates/search.html:262
+#: django/24pro/search_app/templates/search.html:333
+#: search_app/templates/search.html:352 search_app/templates/search.html:411
 msgid "Category:"
-msgstr "カテゴリー"
+msgstr "カテゴリー："
 
-#: search_app/templates/search.html:263
+#: django/24pro/search_app/templates/search.html:334
+#: search_app/templates/search.html:412
 msgid "Min Price:"
-msgstr "最低価格"
+msgstr "最低価格："
 
-#: search_app/templates/search.html:264
+#: django/24pro/search_app/templates/search.html:335
+#: search_app/templates/search.html:413
 msgid "Max Price:"
-msgstr "最高価格"
+msgstr "最高価格："
 
-#: search_app/templates/search.html:265
+#: django/24pro/search_app/templates/search.html:336
+#: search_app/templates/search.html:366 search_app/templates/search.html:414
 msgid "Sort By:"
-msgstr "並び替え"
+msgstr "並び替え："
 
-#: search_app/templates/search.html:267
+#: django/24pro/search_app/templates/search.html:338
+#: search_app/templates/product_list.html:129
+#: search_app/templates/product_list.html:141
+#: search_app/templates/search.html:372 search_app/templates/search.html:416
 msgid "Popularity"
 msgstr "人気度"
 
-#: search_app/templates/search.html:269
+#: django/24pro/search_app/templates/search.html:340
+#: search_app/templates/search.html:368 search_app/templates/search.html:418
 msgid "Price (Low to High)"
-msgstr "価格（最低価格～最高価格）"
+msgstr "価格（昇順）"
 
-#: search_app/templates/search.html:271
+#: django/24pro/search_app/templates/search.html:342
+#: search_app/templates/search.html:369 search_app/templates/search.html:420
 msgid "Price (High to Low)"
-msgstr "価格（最高価格～最低価格）"
+msgstr "価格（降順）"
 
-#: search_app/templates/search.html:273
+#: django/24pro/search_app/templates/search.html:344
+#: search_app/templates/search.html:370 search_app/templates/search.html:422
 msgid "Name (Ascending)"
-msgstr ""
+msgstr "名前（昇順）"
 
-#: search_app/templates/search.html:275
+#: django/24pro/search_app/templates/search.html:346
+#: search_app/templates/search.html:371 search_app/templates/search.html:424
 msgid "Name (Descending)"
-msgstr ""
+msgstr "名前（降順）"
 
-#: search_app/templates/search.html:283 search_app/templates/search.html:296
+#: django/24pro/search_app/templates/search.html:354
+#: search_app/templates/product_list.html:153
+#: search_app/templates/search.html:432
 msgid "Delete"
 msgstr "削除"
 
-#: search_app/templates/search.html:288 search_app/templates/search.html:301
+#: django/24pro/search_app/templates/search.html:359
+#: search_app/templates/search.html:437
 msgid "No search history available."
-msgstr ""
+msgstr "検索履歴がありません。"
 
-#: search_app/templates/search.html:309
+#: django/24pro/search_app/templates/search.html:367
+#: search_app/templates/product_list.html:169
+#: search_app/templates/search.html:445
 msgid "First"
-msgstr ""
+msgstr "最初へ"
 
-#: search_app/templates/search.html:310
+#: django/24pro/search_app/templates/search.html:368
+#: search_app/templates/product_list.html:170
+#: search_app/templates/search.html:446
 msgid "Previous"
-msgstr ""
+msgstr "前へ"
 
-#: search_app/templates/search.html:313
+#: django/24pro/search_app/templates/search.html:371
+#: search_app/templates/product_list.html:173
+#: search_app/templates/search.html:449
 msgid "Page"
-msgstr ""
+msgstr "ページ"
 
-#: search_app/templates/search.html:313
+#: django/24pro/search_app/templates/search.html:371
+#: search_app/templates/product_list.html:173
+#: search_app/templates/search.html:449
 msgid "of"
-msgstr ""
+msgstr "／"
 
-#: search_app/templates/search.html:316
+#: django/24pro/search_app/templates/search.html:374
+#: search_app/templates/product_list.html:176
+#: search_app/templates/search.html:452
 msgid "Next"
-msgstr ""
+msgstr "次へ"
 
-#: search_app/templates/search.html:317
+#: django/24pro/search_app/templates/search.html:375
+#: search_app/templates/product_list.html:177
+#: search_app/templates/search.html:453
 msgid "Last"
-msgstr ""
+msgstr "最後へ"
 
-#: search_app/templates/search.html:323
+#: django/24pro/search_app/templates/search.html:380
+#: search_app/templates/search.html:458
 msgid "Recommended for You"
 msgstr "あなたへのおすすめ"
 
-#: search_app/templates/search.html:336
+#: django/24pro/search_app/templates/search.html:397
+#: search_app/templates/search.html:475
 msgid "No recommended products found."
+msgstr "おすすめの商品は見つかりませんでした。"
+
+#: django/24pro/search_app/templates/swapi_character_search.html:101
+#: search_app/templates/swapi_character_search.html:101
+msgid "スターウォーズ キャラクター検索"
 msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:104
+#: search_app/templates/swapi_character_search.html:104
+msgid "キャラクター名"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:106
+#: search_app/templates/swapi_character_search.html:106
+msgid "検索"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:113
+#: search_app/templates/swapi_character_search.html:113
+msgid "身長"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:114
+#: search_app/templates/swapi_character_search.html:114
+msgid "体重"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:115
+#: search_app/templates/swapi_character_search.html:115
+msgid "髪の色"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:116
+#: search_app/templates/swapi_character_search.html:116
+msgid "肌の色"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:117
+#: search_app/templates/swapi_character_search.html:117
+msgid "目の色"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:118
+#: search_app/templates/swapi_character_search.html:118
+msgid "誕生年"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:119
+#: search_app/templates/swapi_character_search.html:119
+msgid "性別"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:123
+#: search_app/templates/swapi_character_search.html:123
+msgid "「"
+msgstr ""
+
+#: django/24pro/search_app/templates/swapi_character_search.html:123
+#: search_app/templates/swapi_character_search.html:123
+msgid "」という名前のキャラクターが見つかりませんでした。"
+msgstr ""
+
+#: search_app/templates/product_list.html:9
+#: search_app/templates/product_list.html:120
+msgid "Product List"
+msgstr "商品一覧"
+
+#: search_app/templates/product_list.html:126
+msgid "Product Name"
+msgstr "商品名"
+
+#: search_app/templates/product_list.html:127
+msgid "Price"
+msgstr "価格"
+
+#: search_app/templates/product_list.html:128
+msgid "Category"
+msgstr "カテゴリー"
+
+#: search_app/templates/product_list.html:130
+msgid "Actions"
+msgstr "操作"
+
+#: search_app/templates/product_list.html:148
+msgid "Details"
+msgstr "詳細"
+
+#: search_app/templates/product_list.html:149
+msgid "Edit"
+msgstr "編集"
+
+#: search_app/templates/product_list.html:151
+msgid "Are you sure you want to delete this?"
+msgstr "本当に削除しますか？"
+
+#: search_app/templates/product_list.html:166
+msgid "Page navigation"
+msgstr ""
+
+
+#: search_app/templates/product_list.html:184
+#, fuzzy
+#| msgid "+ Add New Product"
+msgid "Add New Product"
+msgstr "新しい商品を追加"
+
+#: search_app/templates/product_list.html:185
+msgid "Back to Main Page"
+msgstr "メインページに戻る"
+
+#: search_app/templates/search.html:270
+msgid "Random Background"
+msgstr "ランダム背景"
+
+msgid "Alderaan"
+msgstr "オルデラン"
+
+msgid "Arcana"
+msgstr "アルカナ"
+
+msgid "Felix"
+msgstr "フェリックス"
+
+msgid "Ben Kenobi's Cave"
+msgstr "ベン・ケノービの洞窟"
+
+msgid "Canto Bight"
+msgstr "カント・バイト"
+
+msgid "Coruscant"
+msgstr "コルサント"
+
+msgid "Darth Vader's Castle"
+msgstr "ダース・ヴェイダーの城"
+
+msgid "Christophsis"
+msgstr "クリストフシス"
+
+msgid "Cloud City"
+msgstr "クラウド・シティ"
+
+msgid "Sol"
+msgstr "ソル"
+
+msgid "Felucia"
+msgstr "フェルーシア"
+
+msgid "Geonosis"
+msgstr "ジオノーシス"
+
+msgid "Death Star I"
+msgstr "初代デス・スター"
+
+msgid "Dune Sea"
+msgstr "デューン・シー"
+
+msgid "Jabba's Palace"
+msgstr "ジャバの宮殿"
+
+msgid "Kashyyyk"
+msgstr "キャッシーク"
+
+msgid "Kef Bir"
+msgstr "ケフ・バー"
+
+msgid "Ajan Kloss"
+msgstr "アジャン・クロス"
+
+msgid "Kessel"
+msgstr "ケッセル"
+
+msgid "Kijimi City"
+msgstr "キジーミ・シティ"
+
+msgid "Lothal"
+msgstr "ロザル"
+
+msgid "Garel"
+msgstr "ガレル"
+
+msgid "Mount Tantiss"
+msgstr "タンティス山"
+
+msgid "throne"
+msgstr "スローン"
+
+msgid "Nevarro"
+msgstr "ネヴァロ"
+
+msgid "Pabu"
+msgstr "パブー"
+
+msgid "Massassi Outpost"
+msgstr "マサッシ前哨基地"
+
+msgid "Ryloth"
+msgstr "ライロス"
+
+msgid "Savareen"
+msgstr "サヴァリーン"
+
+msgid "Scarif"
+msgstr "スカリフ"
+
+msgid "Takodana"
+msgstr "タコダナ"
+
+msgid "Theed Palace"
+msgstr "シード宮殿"
+
+
+#: search_app/templates/search.html:300
+msgid "Lock Background"
+msgstr "背景をロック"
+
+#: search_app/templates/search.html:301
+msgid "Unlock Background"
+msgstr "背景のロックを解除"
+
+#: search_app/templates/search.html:333
+msgid "Register"
+msgstr "新規登録"
+
+#: search_app/templates/search.html:341
+msgid "Star Wars Character Search"
+msgstr "スターウォーズ キャラクター検索"
+
+#: search_app/templates/search.html:342
+msgid "Character Name:"
+msgstr "キャラクター名："
+
+#: search_app/templates/search.html:343
+msgid "Enter character name"
+msgstr "キャラクター名を入力"
+
+#: search_app/templates/search.html:350
+msgid "Enter the keyword to search"
+msgstr "検索キーワードを入力してください"
+
+#: search_app/templates/search.html:354
+msgid "--------- Select a category ---------"
+msgstr "--------- カテゴリを選択 ---------"
+
+#: search_app/templates/search.html:360 search_app/templates/search.html:361
+msgid "Minimum Price"
+msgstr "最小価格"
+
+#: search_app/templates/search.html:363 search_app/templates/search.html:364
+msgid "Maximum Price"
+msgstr "最大価格"
+
+#~ msgid "Total products found:"
+#~ msgstr "見つかった商品数："
+
+#~ msgid "items"
+#~ msgstr "件"
+
+#: product_list.html:XXX
+msgid "Add New Project"
+msgstr "新しいプロジェクトを追加"

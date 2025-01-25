@@ -1,0 +1,80 @@
+from django.shortcuts import render
+import requests
+from .models import Product
+from .forms import SearchForm
+from django.core.paginator import Paginator
+
+def search_view(request):
+    form = SearchForm(request.GET or None)
+    products = Product.objects.all()  # 商品検索用
+    characters = []  # キャラクター検索結果用
+    character_name = request.GET.get('character', '').lower()  # キャラクター検索のクエリ
+    sort_by = 'price_asc'  # デフォルトの並び替え順
+
+    # 商品検索ロジック
+    if form.is_valid():
+        query = form.cleaned_data.get('query')
+        category = form.cleaned_data.get('category')
+        min_price = form.cleaned_data.get('min_price')
+        max_price = form.cleaned_data.get('max_price')
+        sort_by = form.cleaned_data.get('sort_by', 'price_asc')
+
+        # 商品名検索
+        if query:
+            products = products.filter(name__icontains=query)
+
+        # カテゴリフィルタ
+        if category:
+            products = products.filter(category=category)
+
+        # 価格フィルタ
+        if min_price:
+            products = products.filter(price__gte=min_price)
+        if max_price:
+            products = products.filter(price__lte=max_price)
+
+        # 並び替え
+        if sort_by == 'price_asc':
+            products = products.order_by('price')
+        elif sort_by == 'price_desc':
+            products = products.order_by('-price')
+        elif sort_by == 'name_asc':
+            products = products.order_by('name')
+        elif sort_by == 'name_desc':
+            products = products.order_by('-name')
+        elif sort_by == 'popularity':
+            products = products.order_by('-popularity')
+
+    # ページネーション（商品検索結果のみ）
+    paginator = Paginator(products, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # キャラクター検索ロジック
+    if character_name:
+        url = f'https://swapi.dev/api/people/?search={character_name}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            results_data = response.json().get('results', [])
+            for character in results_data:
+                characters.append({
+                    'name': character['name'],
+                    'height': character['height'],
+                    'mass': character['mass'],
+                    'hair_color': character['hair_color'],
+                    'skin_color': character['skin_color'],
+                    'eye_color': character['eye_color'],
+                    'birth_year': character['birth_year'],
+                    'gender': character['gender'],
+                })
+
+    # コンテキスト作成
+    context = {
+        'form': form,
+        'page_obj': page_obj,  # 商品検索のページネーション
+        'characters': characters,  # キャラクター検索結果
+        'character_name': character_name,  # キャラクター検索キーワード
+        'total_results': paginator.count,  # 商品検索の総件数
+    }
+
+    return render(request, 'search.html', context)

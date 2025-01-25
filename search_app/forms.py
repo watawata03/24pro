@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, Category
+from .models import Product, Category, Character
 
 class SearchForm(forms.Form):
     query = forms.CharField(
@@ -65,11 +65,19 @@ class SimpleTextForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'テキストを入力してください'})
     )
 
+class CharacterForm(forms.ModelForm):
+    class Meta:
+        model = Character
+        fields = ['name', 'height', 'mass', 'hair_color', 'skin_color', 'eye_color', 'birth_year', 'gender', 'image']
+
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name']
-        
+        fields = ['name']  # Category モデルのフィールドを指定（nameフィールドのみ）
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'カテゴリ名'})
+        }
+
 class FileNameForm(forms.Form):
     file_name = forms.CharField(
         label='ファイル名',
@@ -79,3 +87,8 @@ class FileNameForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ファイル名を入力'})
     )
 
+
+class CharacterImageForm(forms.ModelForm):
+    class Meta:
+        model = Character
+        fields = ['name', 'height', 'mass', 'hair_color', 'skin_color', 'eye_color', 'birth_year', 'gender']

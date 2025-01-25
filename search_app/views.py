@@ -8,10 +8,21 @@ from django.contrib import messages
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 import csv
 import requests
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 import requests
 from django.shortcuts import render
+from django.db.models import Q
+from .models import Character, Product
 from translate import Translator
+from .forms import CharacterImageForm
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import CharacterForm  
+from .models import Character  
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import UserPreferences
+
 
 
 
@@ -32,6 +43,12 @@ KATAKANA_TO_ROMAJI = {
     'バ': 'ba', 'ビ': 'bi', 'ブ': 'bu', 'ベ': 'be', 'ボ': 'bo',
     'パ': 'pa', 'ピ': 'pi', 'プ': 'pu', 'ペ': 'pe', 'ポ': 'po'
 }
+
+def katakana_to_romaji(katakana_text):
+    romaji_text = ""
+    for char in katakana_text:
+        romaji_text += KATAKANA_TO_ROMAJI.get(char, char)  
+    return romaji_text
 
 
 # 商品検索機能 - ログイン不要
@@ -124,6 +141,141 @@ def delete_search_history(request, history_id):
     messages.success(request, "検索履歴が削除されました")
     return redirect('search_view')
 
+def character_list(request):
+    response = requests.get('https://swapi.dev/api/people/')
+    data = response.json()
+
+    translations = {
+        "Luke Skywalker": "ルーク・スカイウォーカー",
+        "Darth Vader": "ダース・ベイダー",
+    }
+    for character in data['results']:
+        character['image_url'] = f"https://example.com/images/{character['name'].replace(' ', '_')}.jpg"
+        character['name_jp'] = translations.get(character['name'], character['name'])
+
+    return render(request, 'character_list.html', {'characters': data['results']})
+
+
+def search_results(request):
+    query = request.GET.get('query')
+    if query:
+        character_results = Character.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+        product_results = Product.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+    else:
+        character_results = Character.objects.none()
+        product_results = Product.objects.none()
+    return render(request, 'search_results.html', {
+        'character_results': character_results,
+        'product_results': product_results
+    })
+
+
+
+def index(request):
+    preferences = UserPreferences.objects.first()
+    color = preferences.text_color if preferences else "#000000"
+    return render(request, "index.html", {"text_color": color})
+
+# 色を保存するAPIエンドポイント
+def save_color(request):
+    if request.method == "POST":
+        color = request.POST.get("color", "#000000")  # デフォルトは黒
+        preferences, created = UserPreferences.objects.get_or_create(id=1)  # シングルトンの例
+        preferences.text_color = color
+        preferences.save()
+        return JsonResponse({"message": "カラーが保存されました"})
+
+
+def search_view(request):
+    form = SearchForm(request.GET or None)
+    results = Product.objects.all()  # 商品検索用
+    characters = []  # キャラクター検索結果用
+    character_name = request.GET.get('character', '').lower()  # キャラクター検索のクエリ
+    sort_by = 'price_asc'  # デフォルトの並び替え順
+
+    # 商品検索ロジック
+    if form.is_valid():
+        query = form.cleaned_data.get('query')
+        category = form.cleaned_data.get('category')
+        min_price = form.cleaned_data.get('min_price')
+        max_price = form.cleaned_data.get('max_price')
+        sort_by = form.cleaned_data.get('sort_by', 'price_asc')
+
+        # 商品名検索
+        if query:
+            results = results.filter(name__icontains=query)
+
+        # カテゴリフィルタ
+        if category:
+            results = results.filter(category=category)
+
+        # 価格フィルタ
+        if min_price:
+            results = results.filter(price__gte=min_price)
+        if max_price:
+            results = results.filter(price__lte=max_price)
+
+        # 並び替え
+        if sort_by == 'price_asc':
+            results = results.order_by('price')
+        elif sort_by == 'price_desc':
+            results = results.order_by('-price')
+        elif sort_by == 'name_asc':
+            results = results.order_by('name')
+        elif sort_by == 'name_desc':
+            results = results.order_by('-name')
+        elif sort_by == 'popularity':
+            results = results.order_by('-popularity')
+
+    # ページネーション（商品検索結果のみ）
+    paginator = Paginator(results, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # キャラクター検索ロジック
+    if character_name:
+        url = f'https://swapi.dev/api/people/?search={character_name}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            results_data = response.json().get('results', [])
+            for character in results_data:
+                character['hair_color'] = translate_hair_color(character['hair_color'])
+                character['skin_color'] = translate_skin_color(character['skin_color'])
+                character['eye_color'] = translate_eye_color(character['eye_color'])
+                character['gender'] = translate_gender(character['gender'])
+                characters.append(character)
+
+    context = {
+        'form': form,
+        'page_obj': page_obj,  # 商品検索のページネーション
+        'characters': characters,  # キャラクター検索結果
+        'character_name': character_name,  # キャラクター検索キーワード
+        'total_results': paginator.count,  # 商品検索の総件数
+    }
+
+    return render(request, 'search.html', context)
+
+# 詳細表示ビュー
+def character_detail(request, pk):
+    character = get_object_or_404(Character, pk=pk)
+    return render(request, 'character_detail.html', {'character': character})
+
+# 編集ビュー
+def character_edit(request, pk):
+    character = get_object_or_404(Character, pk=pk)
+    if request.method == 'POST':
+        form = CharacterImageForm(request.POST, request.FILES, instance=character)
+        if form.is_valid():
+            form.save()
+            return redirect('character_detail', pk=character.pk)
+    else:
+        form = CharacterImageForm(instance=character)
+    return render(request, 'character_edit.html', {'form': form, 'character': character})
+
 # 商品リスト表示機能 - ログイン不要
 def product_list(request):
     products = Product.objects.all()
@@ -131,6 +283,18 @@ def product_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'product_list.html', {'page_obj': page_obj})
+
+
+def update_character_image(request, pk):
+    character = get_object_or_404(Character, pk=pk)
+    if request.method == 'POST':
+        form = CharacterImageForm(request.POST, request.FILES, instance=character)
+        if form.is_valid():
+            form.save()
+            return redirect('character_list')  # 成功後にリストページなどにリダイレクト
+    else:
+        form = CharacterImageForm(instance=character)
+    return render(request, 'update_character_image.html', {'form': form, 'character': character})
 
 # 商品作成機能
 @login_required
@@ -308,6 +472,58 @@ def translate_gender(gender):
     }
     return translations.get(gender, gender)
 
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()  # ユーザーを保存
+            messages.success(request, "アカウントが作成されました！ログインしてください。")
+            return redirect('login')  # ログインページへリダイレクト
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+
+
+
+def character_list(request):
+    characters = Character.objects.all()  # すべてのキャラクターを取得
+    return render(request, 'character_list.html', {'characters': characters})
+
+
+def character_list(request):
+    # Character モデルからすべてのキャラクターを取得
+    characters = Character.objects.all()
+    
+    # 取得したキャラクターをテンプレートに渡して表示
+    return render(request, 'character_list.html', {'characters': characters})
+
+
+
+@login_required
+def character_create(request):
+    if request.method == 'POST':
+        form = CharacterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "キャラクターが作成されました！")
+            return redirect('character_list')  # キャラクター一覧にリダイレクト
+    else:
+        form = CharacterForm()
+    return render(request, 'character_create.html', {'form': form})
+
+
+
+def character_create(request):
+    if request.method == 'POST':
+        form = CharacterForm(request.POST, request.FILES)  # Filsも扱うためrequest.FILESを追加
+        if form.is_valid():
+            form.save()  # 新しいキャラクターを保存
+            return redirect('character_list')  # キャラクター一覧ページにリダイレクト
+    else:
+        form = CharacterForm()
+    return render(request, 'character_form.html', {'form': form})
+
 
 
 def katakana_to_romaji(katakana_text):
@@ -384,3 +600,73 @@ def swapi_all_data(request):
         data[category] = all_results
 
     return render(request, 'swapi_all_data.html', {'data': data})
+# views.py - search_view にキャラクター検索機能を統合
+def search_view(request):
+    form = SearchForm(request.GET or None)
+    products = Product.objects.all()  # 商品検索用
+    characters = []  # キャラクター検索結果用
+    character_name = request.GET.get('character', '').lower()  # キャラクター検索のクエリ
+    sort_by = 'price_asc'  # デフォルトの並び替え順
+
+    # 商品検索ロジック
+    if form.is_valid():
+        query = form.cleaned_data.get('query')
+        category = form.cleaned_data.get('category')
+        min_price = form.cleaned_data.get('min_price')
+        max_price = form.cleaned_data.get('max_price')
+        sort_by = form.cleaned_data.get('sort_by', 'price_asc')
+
+        # 商品名検索
+        if query:
+            products = products.filter(name__icontains=query)
+
+        # カテゴリフィルタ
+        if category:
+            products = products.filter(category=category)
+
+        # 価格フィルタ
+        if min_price:
+            products = products.filter(price__gte=min_price)
+        if max_price:
+            products = products.filter(price__lte=max_price)
+
+        # 並び替え
+        if sort_by == 'price_asc':
+            products = products.order_by('price')
+        elif sort_by == 'price_desc':
+            products = products.order_by('-price')
+        elif sort_by == 'name_asc':
+            products = products.order_by('name')
+        elif sort_by == 'name_desc':
+            products = products.order_by('-name')
+        elif sort_by == 'popularity':
+            products = products.order_by('-popularity')
+
+    # ページネーション（商品検索結果のみ）
+    paginator = Paginator(products, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # キャラクター検索ロジック
+    if character_name:
+        url = f'https://swapi.dev/api/people/?search={character_name}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            results_data = response.json().get('results', [])
+            for character in results_data:
+                character['hair_color'] = translate_hair_color(character['hair_color'])
+                character['skin_color'] = translate_skin_color(character['skin_color'])
+                character['eye_color'] = translate_eye_color(character['eye_color'])
+                character['gender'] = translate_gender(character['gender'])
+                characters.append(character)
+
+    # コンテキスト作成
+    context = {
+        'form': form,
+        'page_obj': page_obj,  # 商品検索のページネーション
+        'characters': characters,  # キャラクター検索結果
+        'character_name': character_name,  # キャラクター検索キーワード
+        'total_results': paginator.count,  # 商品検索の総件数
+    }
+
+    return render(request, 'search.html', context)
